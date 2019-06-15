@@ -5,19 +5,50 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def get_html(url):
+def get_html_and_stcode(url):
 	r = requests.get(url)
-	return r.text	
-			#возвращает html-код страницы
+	a = [r.text, r.status_code]
+	return a	
+			#возвращает html-код страницы и статус код
 
+
+
+def get_html(page_andst):
+	text_html = page_andst[0]
+	return text_html
+
+
+def get_status_code(page_andst):
+	s_code = page_andst[1]
+	return s_code
+
+
+def get_only_url(html_page):
+	only_url = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', html_page)
+	return only_url
 
 def main():
-	s_1 = get_html('https://uchi.ru/')
-	#print(s_1)
-	parser = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', s_1)
-	for i in parser:
-		print(i) 
+	url = 'https://httpbin.org/'
+	main_page_list = get_html_and_stcode(url) #код страницы и статус-код
+	main_page = get_html(main_page_list) #код страницы
+	st_code = get_status_code(main_page_list) #статус-код
+	list_url = [url, st_code]
+	print(list_url)
+	print('\n')
+	main_pageurl = get_only_url(main_page)
+
+	for i in main_pageurl:
+		second_pages_list=get_html_and_stcode(i)
+		second_pages = get_html(second_pages_list)
+		second_stcode = get_status_code(second_pages_list)
+		second_url=get_only_url(second_pages)
+		list_url_2 = [i, second_stcode]
+		print(list_url_2) 
 		print('\n')
+
+		#for j in second_url:
+				#print(j)
+				#print('\n')
 
 
 
