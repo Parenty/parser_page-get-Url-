@@ -3,14 +3,22 @@
 import re
 import requests
 from bs4 import BeautifulSoup
+import time
 
 
+start_time = time.time()
 def get_html_and_stcode(url):
 	r = requests.get(url)
 	a = [r.text, r.status_code]
 	return a	
 			#возвращает html-код страницы и статус код
 
+
+#def loginbot()
+	#s = requests.Session()
+	#s = requests.get(https://uchi.ru/)
+	#data = ['backurl']
+	
 
 
 def get_html(page_andst):
@@ -59,4 +67,7 @@ def main():
 
 if __name__ == '__main__':
 	main()
+
+print('--- %.3f seconds ---' % (time.time()-start_time))
+
 
