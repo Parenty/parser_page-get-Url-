@@ -15,29 +15,30 @@ def get_html_and_stcode(url):
 			#возвращает html-код страницы и статус код
 
 
-def loginbot():
+def post_html_and_stcode(url):
+	#url = "https://43059.shot-uchi.ru/"
 	s = requests.Session()
-	resp = s.get("https://43059.shot-uchi.ru/")
+	resp = s.get(url)
 	html_text = resp.text
-	token = re.search('(?<=\<meta name=\"csrf-token\" content=\")(.+)(?=\" />)', html_text)
-	print(s.cookies.get_dict())
-	#print(token)
+	token = (re.search('(?<=\<meta name=\"csrf-token\" content=\")(.+)(?=\" />)', html_text)).group()
 
 
 	data = {#"utf8": '%E2%9C%93',
 			"authenticity_token": token,
 			#"next": '/home',
 			"login": 'dmitriev@uchi.ru',
-			"password": '123'
+			"password": '1'
 	 }
 
-	r = s.post('https://43059.shot-uchi.ru/', data = data)
+	r = s.post(url, data = data)
 
 	#print(r.text)
-	print(r.status_code)
+	a = [r.text, r.status_code]
+	return a
+	#print(a)
 
 
-"""
+
 def get_html(page_andst):
 	text_html = page_andst[0]
 	return text_html
@@ -51,12 +52,13 @@ def get_status_code(page_andst):
 def get_only_url(html_page):
 	only_url = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', html_page)
 	return only_url
-"""
+
+
 def main():
-	loginbot()
-	"""
-	url = 'https://httpbin.org/'
-	main_page_list = get_html_and_stcode(url) #код страницы и статус-код
+	#loginbot('https://43059.shot-uchi.ru/')
+	
+	url = 'https://43059.shot-uchi.ru/'
+	main_page_list = post_html_and_stcode(url) #код страницы и статус-код
 	main_page = get_html(main_page_list) #код страницы
 	st_code = get_status_code(main_page_list) #статус-код
 	list_url = [url, st_code]
@@ -83,7 +85,7 @@ def main():
 
 
 
-"""
+
 if __name__ == '__main__':
 	main()
 
