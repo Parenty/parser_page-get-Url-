@@ -4,9 +4,12 @@ import re
 import requests
 from bs4 import BeautifulSoup
 import time
+import lxml
 
 
 start_time = time.time()
+list_urls = []
+Host = 'https://43059.shot-uchi.ru'
 
 def get_html_and_stcode(url):
 	r = requests.get(url)
@@ -50,14 +53,33 @@ def get_status_code(page_andst):
 
 
 def get_only_url(html_page):
+	soup = BeautifulSoup(html_page, 'lxml')
+	#list_urls = []
+	for i in soup.find_all('link', href = True): #ищу все ссылки с тэгом link
+		link = str(i.get('href'))
+		list_urls.append(link)
+	for i in soup.find_all('a', href = True): #ищу все ссылки с тэгом a
+		link = str(i.get('href'))
+		list_urls.append(link)
+
+		#достаю остальные ссылки (начинающиеся с http)
 	only_url = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', html_page)
-	return only_url
+	for i in only_url:
+		list_urls.append(i)
+
+	for i in list_urls:
+		if i.startswith('/') and not i.startswith('//'):
+			list_urls.remove(i)
+			a = Host+i
+			list_urls.append(a)
+
+	return list_urls
 
 
 def main():
 	#loginbot('https://43059.shot-uchi.ru/')
 	
-	url = 'https://43059.shot-uchi.ru/'
+	url = Host
 	main_page_list = post_html_and_stcode(url) #код страницы и статус-код
 	main_page = get_html(main_page_list) #код страницы
 	st_code = get_status_code(main_page_list) #статус-код
@@ -65,14 +87,18 @@ def main():
 	print(list_url)
 	print('\n')
 	main_pageurl = get_only_url(main_page)
+	#print(main_pageurl)
+	print(len(main_pageurl))
+
 
 	for i in main_pageurl:
-		second_pages_list=get_html_and_stcode(i)
-		second_pages = get_html(second_pages_list)
-		second_stcode = get_status_code(second_pages_list)
-		second_url=get_only_url(second_pages)
-		list_url_2 = [i, second_stcode]
-		print(list_url_2) 
+		#second_pages_list=get_html_and_stcode(i)
+		#second_pages = get_html(second_pages_list)
+		#second_stcode = get_status_code(second_pages_list)
+		#second_url=get_only_url(second_pages)
+		#list_url_2 = [i, second_stcode]
+		print(i)
+		#print(list_url_2) 
 		print('\n')
 
 		#for j in second_url:
