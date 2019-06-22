@@ -68,12 +68,12 @@ def get_only_url(html_page):
 		list_urls.append(i)
 
 	for i in list_urls:
-		if i.startswith('/') and not i.startswith('//'):
+		if not i.startswith('/') and not i.startswith('//'):
 			list_urls.remove(i)
-			a = Host+i
-			list_urls.append(a)
 
 	return list_urls
+
+
 
 
 def main():
@@ -88,18 +88,23 @@ def main():
 	print('\n')
 	main_pageurl = get_only_url(main_page)
 	#print(main_pageurl)
+
 	print(len(main_pageurl))
 
 
 	for i in main_pageurl:
-		#second_pages_list=get_html_and_stcode(i)
-		#second_pages = get_html(second_pages_list)
-		#second_stcode = get_status_code(second_pages_list)
-		#second_url=get_only_url(second_pages)
-		#list_url_2 = [i, second_stcode]
+		if i.startswith('/') and not i.startswith('//'):
+			i = Host+i
+		#else:
+			#i=i
+		second_pages_list=get_html_and_stcode(i)
+		second_pages = get_html(second_pages_list)
+		second_stcode = get_status_code(second_pages_list)
+		second_url=get_only_url(second_pages)
+		list_url_2 = [i, second_stcode]
 		print(i)
 		#print(list_url_2) 
-		print('\n')
+		#print('\n')
 
 		#for j in second_url:
 				#print(j)
