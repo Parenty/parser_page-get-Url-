@@ -67,9 +67,9 @@ def get_only_url(html_page):
 	for i in only_url:
 		list_urls.append(i)
 
-	for i in list_urls:
-		if not i.startswith('/') and not i.startswith('//'):
-			list_urls.remove(i)
+	#for i in list_urls:
+		#if not i.startswith('/') and not i.startswith('//'):
+			#list_urls.remove(i)
 
 	return list_urls
 
