@@ -58,6 +58,7 @@ def get_only_url(html_page):
 	for i in soup.find_all('link', href = True): #ищу все ссылки с тэгом link
 		link = str(i.get('href'))
 		list_urls.append(link)
+
 	for i in soup.find_all('a', href = True): #ищу все ссылки с тэгом a
 		link = str(i.get('href'))
 		list_urls.append(link)
@@ -67,9 +68,9 @@ def get_only_url(html_page):
 	for i in only_url:
 		list_urls.append(i)
 
-	#for i in list_urls:
-		#if not i.startswith('/') and not i.startswith('//'):
-			#list_urls.remove(i)
+	for i in list_urls:
+		if not i.startswith('/') and not i.startswith('//'):
+			list_urls.remove(i)
 
 	return list_urls
 
@@ -100,15 +101,15 @@ def main():
 		second_pages_list=get_html_and_stcode(i)
 		second_pages = get_html(second_pages_list)
 		second_stcode = get_status_code(second_pages_list)
-		second_url=get_only_url(second_pages)
-		list_url_2 = [i, second_stcode]
+		#  second_url=get_only_url(second_pages)
+		# list_url_2 = [i, second_stcode]
 		print(i)
-		#print(list_url_2) 
-		#print('\n')
+		# print(list_url_2) 
+		print('\n')
 
-		#for j in second_url:
-				#print(j)
-				#print('\n')
+		# for j in second_url:
+		# 		print(j)
+		# 		print('\n')
 
 
 
