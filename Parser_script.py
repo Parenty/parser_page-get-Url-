@@ -53,7 +53,7 @@ def get_status_code(page_andst):
 
 
 def get_only_url(html_page):
-	soup = BeautifulSoup(html_page, 'lxml')
+	soup = BeautifulSoup(html_page, 'lxml') #создаю объект супа
 	#list_urls = []
 	for i in soup.find_all('link', href = True): #ищу все ссылки с тэгом link
 		link = str(i.get('href'))
@@ -69,10 +69,16 @@ def get_only_url(html_page):
 		list_urls.append(i)
 
 	for i in list_urls:
-		if not i.startswith('/') and not i.startswith('//'):
+		if not i.startswith('/'):
 			list_urls.remove(i)
 
-	return list_urls
+	# for i in list_urls:
+	# 	if i.startswith('//') and not Host in i:
+	# 		list_urls.remove(i)
+
+	unique_urls = set(list_urls)
+
+	return unique_urls
 
 
 
@@ -85,31 +91,43 @@ def main():
 	main_page = get_html(main_page_list) #код страницы
 	st_code = get_status_code(main_page_list) #статус-код
 	list_url = [url, st_code]
-	print(list_url)
-	print('\n')
+	# print(list_url)
+	# print('\n')
 	main_pageurl = get_only_url(main_page)
 	#print(main_pageurl)
 
 	print(len(main_pageurl))
+	# print(main_pageurl)
 
 
 	for i in main_pageurl:
 		if i.startswith('/') and not i.startswith('//'):
 			i = Host+i
+		if not i.startswith(Host):
+			pass
+		else:
+		# else:
+		# 	pass
+		# if not 'uchi' in i:
+		# 	pass
+		# else:
 		#else:
 			#i=i
-		second_pages_list=get_html_and_stcode(i)
-		second_pages = get_html(second_pages_list)
-		second_stcode = get_status_code(second_pages_list)
-		#  second_url=get_only_url(second_pages)
-		# list_url_2 = [i, second_stcode]
-		print(i)
-		# print(list_url_2) 
-		print('\n')
+			second_pages_list=get_html_and_stcode(i)
+			second_pages = get_html(second_pages_list)
+			second_stcode = get_status_code(second_pages_list)
+			second_url=get_only_url(second_pages)
+			# print(len(second_url))
+			list_url_2 = [i, second_stcode]
+			# print(i)
+			print(list_url_2) 
+			print('\n')
+			# print(len(second_url))
 
-		# for j in second_url:
-		# 		print(j)
-		# 		print('\n')
+			# for j in second_url:
+			# 	print(j)
+			# 	print('\n')
+
 
 
 
