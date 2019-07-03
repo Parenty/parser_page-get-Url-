@@ -5,24 +5,22 @@ import requests
 from bs4 import BeautifulSoup
 import time
 import lxml
-
+import json
 
 start_time = time.time()
 list_urls = []
 
 Host = 'https://43059.shot-uchi.ru'
 Teacher_first_page = '/teachers/stats/main'
-pages_to_parse = []
-# parsed_pages = []
-site_links = []
 links = set()
 count = 0
+list_of_stcode = []
 
 
 
 
 def post_html_and_stcode(url):
-	#url = "https://43059.shot-uchi.ru/"
+
 	s = requests.Session()
 	resp = s.get(url)
 	html_text = resp.text
@@ -38,10 +36,7 @@ def post_html_and_stcode(url):
 
 	r = s.post(url, data = data)
 
-	#print(r.text)
-	# a = [r.text, r.status_code]
 	return s
-	#print(a)
 
 def get_html_and_stcode(url):
 	r = post_html_and_stcode(Host).get(url)
@@ -80,9 +75,6 @@ def get_only_url(html_page):
 		if not i.startswith('/'):
 			list_urls.remove(i)
 
-	# for i in list_urls:
-	# 	if i.startswith('//') and not Host in i:
-	# 		list_urls.remove(i)
 
 	unique_urls = set(list_urls)
 
@@ -103,7 +95,8 @@ def get_all_links(url, maxdepth = 2):
 	urls = get_only_url(request_html)
 	# print(len(urls))
 	# print(urls)
-	url_stcode = [url, request_st_code]
+	url_stcode = {'url': url, 'status_code': request_st_code}
+	list_of_stcode.append(url_stcode)
 	# for i in urls:
 	# 	print(i)
 	# 	print('\n')
@@ -136,11 +129,17 @@ def get_all_links(url, maxdepth = 2):
 
 def main():
 	global count
-	#loginbot('https://43059.shot-uchi.ru/')
-	# print(Host)
-	# post_html_and_stcode(Host)
-	# get_first_page(Host)
 	get_all_links(Host+Teacher_first_page)
+
+	with open("statuscode.json", "w", encoding = "utf-8") as file:
+		for i in list_of_stcode:
+			json.dump(i, file, indent = 4)
+		file.close()
+
+			
+		
+	# for i in list_of_stcode:
+	# 	print(i)
 	for link in links:
 		print(link)
 	print(len(links))
