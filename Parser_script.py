@@ -39,7 +39,7 @@ def post_html_and_stcode(url):
 	return s
 
 def get_html_and_stcode(url):
-	r = post_html_and_stcode(Host).get(url)
+	r = post_html_and_stcode(Host).get(url, timeout = 5)
 	# r = requests.get(url)
 	a = [r.text, r.status_code]
 	return a	
@@ -82,7 +82,7 @@ def get_only_url(html_page):
 
 
 
-def get_all_links(url, maxdepth = 2):
+def get_all_links(url, maxdepth = 1): #maxdepth - глубина рекурсии. Для учи, рекомендую ставить "2" - основные урлы будут проверены
 
 	global count
 	
@@ -102,15 +102,15 @@ def get_all_links(url, maxdepth = 2):
 	# 	print('\n')
 	print(url_stcode)
 	print('\n')
-	count = count + 1
-	print(count)
-	print('\n')
+	# count = count + 1
+	# print(count)
+	# print('\n')
 
 	# print(links_recursive)
 	for link in urls:
 		if link.startswith('/') and not link.startswith('//'):
 			link = Host + link
-		if link.startswith(Host) and link not in links:
+		if link.startswith(Host) and link not in links and not link in links_recursive:
 			# print(link)
 			links.add(link)
 			links_recursive.append(link)
@@ -121,6 +121,8 @@ def get_all_links(url, maxdepth = 2):
 	# print(links)
 	# print(links_recursive)
 	if maxdepth > 0:
+		# print(str(len(links_recursive))+' links_recursive')
+		# print(str(len(links))+' links')
 		for link in links_recursive:
 			get_all_links(link, maxdepth = maxdepth - 1)
 
@@ -132,23 +134,23 @@ def main():
 	get_all_links(Host+Teacher_first_page)
 
 	with open("statuscode.json", "w", encoding = "utf-8") as file:
-		for i in list_of_stcode:
-			json.dump(i, file, indent = 4)
+		# for i in list_of_stcode:
+		json.dump(list_of_stcode, file, indent = 4)
 		file.close()
 
 			
 		
 	# for i in list_of_stcode:
 	# 	print(i)
-	for link in links:
-		print(link)
+	# for link in links:
+	# 	print(link)
 	print(len(links))
 	# print(links)
-	# for link in links:
-	# 	count = count + 1
-	# 	print(link)
-	# 	print(count)
-	# 	print('\n')
+	for link in links:
+		count = count + 1
+		print(link)
+		print(count)
+		print('\n')
 
 
 
