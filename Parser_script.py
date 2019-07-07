@@ -16,6 +16,9 @@ links = set()
 count = 0
 list_of_stcode = []
 
+check_list = []
+check_url = []
+
 
 
 
@@ -82,7 +85,7 @@ def get_only_url(html_page):
 
 
 
-def get_all_links(url, maxdepth = 1): #maxdepth - глубина рекурсии. Для учи, рекомендую ставить "2" - основные урлы будут проверены
+def get_all_links(url, maxdepth = 3): #maxdepth - глубина рекурсии. Для учи, рекомендую ставить "2" - основные урлы будут проверены
 
 	global count
 	
@@ -97,14 +100,16 @@ def get_all_links(url, maxdepth = 1): #maxdepth - глубина рекурси�
 	# print(urls)
 	url_stcode = {'url': url, 'status_code': request_st_code}
 	list_of_stcode.append(url_stcode)
+
+	# check_list.append(url_stcode)
 	# for i in urls:
 	# 	print(i)
 	# 	print('\n')
 	print(url_stcode)
 	print('\n')
-	# count = count + 1
-	# print(count)
-	# print('\n')
+	count = count + 1
+	print(count)
+	print('\n')
 
 	# print(links_recursive)
 	for link in urls:
@@ -118,12 +123,13 @@ def get_all_links(url, maxdepth = 1): #maxdepth - глубина рекурси�
 			# print(str(len(links))+' links')
 			# print(str(len(links_recursive))+' links_recursive')
 			# print('\n')
-	# print(links)
-	# print(links_recursive)
+	# print(str(len(links))+' links')
+	# print(str(len(links_recursive))+' links_recursive')
 	if maxdepth > 0:
 		# print(str(len(links_recursive))+' links_recursive')
 		# print(str(len(links))+' links')
 		for link in links_recursive:
+			# check_url.append(link)
 			get_all_links(link, maxdepth = maxdepth - 1)
 
 
@@ -132,9 +138,9 @@ def get_all_links(url, maxdepth = 1): #maxdepth - глубина рекурси�
 def main():
 	global count
 	get_all_links(Host+Teacher_first_page)
+	print(len(check_url))
 
 	with open("statuscode.json", "w", encoding = "utf-8") as file:
-		# for i in list_of_stcode:
 		json.dump(list_of_stcode, file, indent = 4)
 		file.close()
 
@@ -146,12 +152,14 @@ def main():
 	# 	print(link)
 	print(len(links))
 	# print(links)
-	for link in links:
-		count = count + 1
-		print(link)
-		print(count)
-		print('\n')
+	# for link in links:
+	# 	count = count + 1
+		# print(link)
+		# print(count)
+		# print('\n')
 
+	# print(len(check_list))
+	# print(str(len(check_url))+ 'сколько урлов')
 
 
 
