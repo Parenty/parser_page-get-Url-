@@ -85,7 +85,7 @@ def get_only_url(html_page):
 
 
 
-def get_all_links(url, maxdepth = 3): #maxdepth - глубина рекурсии. Для учи, рекомендую ставить "2" - основные урлы будут проверены
+def get_all_links(url, maxdepth = 2): #maxdepth - глубина рекурсии. Для учи, рекомендую ставить "2" - основные урлы будут проверены
 
 	global count
 	
