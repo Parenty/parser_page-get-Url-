@@ -12,7 +12,7 @@ from requests.exceptions import ConnectionError
 start_time = time.time()
 list_urls = []
 
-Host = 'https://43253.shot-uchi.ru'
+Host = 'https://43256.shot-uchi.ru'
 Teacher_first_page = '/teachers/stats/main'
 count_while = 0
 links_while = []
@@ -28,7 +28,7 @@ token = (re.search('(?<=\<meta name=\"csrf-token\" content=\")(.+)(?=\" />)', ht
 data = {#"utf8": '%E2%9C%93',
 			"authenticity_token": token,
 			#"next": '/home',
-			"login": 'teacher3315@uchi.ru',
+			"login": 'dmitriev@uchi.ru',
 			"password": '1'
 	 }
 
