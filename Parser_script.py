@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
+import sys
 import re
 import requests
 from bs4 import BeautifulSoup
@@ -11,8 +12,8 @@ from requests.exceptions import ConnectionError
 start_time = time.time()
 list_urls = []
 
-Host = 'https://43059.shot-uchi.ru'
-Teacher_first_page = '/students/main'
+Host = 'https://43256.shot-uchi.ru'
+Teacher_first_page = '/teachers/stats/main'
 count_while = 0
 links_while = []
 final_list = []
@@ -27,11 +28,14 @@ token = (re.search('(?<=\<meta name=\"csrf-token\" content=\")(.+)(?=\" />)', ht
 data = {#"utf8": '%E2%9C%93',
 			"authenticity_token": token,
 			#"next": '/home',
-			"login": '123',
-			"password": '6013повтор'
+			"login": 'dmitriev@uchi.ru',
+			"password": '1'
 	 }
 
 r = s.post(Host, data = data)
+if r.status_code == 500:
+	print('500-ка при логине')
+	sys.exit()
 
 
 # Функция, которая вытаскивает со страницы все ссылки и ее статус код
@@ -111,7 +115,7 @@ def get_links_while(url):
 
 			if not '/logout' in link:
 
-				if link.startswith('/') and not link.startswith('//'):
+				if link.startswith('/') and not link.startswith('//') and not 'card' in link:
 					link = Host + link
 
 				if link.startswith(Host) and link not in links_while:
