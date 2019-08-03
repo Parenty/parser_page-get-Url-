@@ -89,11 +89,7 @@ def get_links_while(url):
 
 	links_while.append(url)
 
-	global count_while
-
-	# while count_while != 1:                   #len(links_while)
-
-	
+	global count_while	
 
 	while count_while != len(links_while):
 
@@ -103,9 +99,7 @@ def get_links_while(url):
 		count_while = count_while + 1
 		req_html = get_html(req)
 		req_st_code = get_status_code(req)
-
 		urls_while = get_only_url(req_html)
-
 		links_and_response = {"url": current_url, "status_code": req_st_code}
 		final_list.append(links_and_response)
 
