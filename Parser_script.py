@@ -27,14 +27,14 @@ token = (re.search('(?<=<meta name=\"csrf-token\" content=\")(.+)(?=\" />)', htm
 data = {  # "utf8": '%E2%9C%93',
     "authenticity_token": token,
     # "next": '/home',
-    "login": 'dmitriev@uchi.ru',
-    "password": '123'
+    "login": 'antonevich+t@uchi.ru',
+    "password": '1'
 }
 
-r = s.post(Host, data=data)
-if r.status_code == 500:
-    print('500-ка при логине')
-    sys.exit()
+# r = s.post(Host, data=data)
+# if r.status_code == 500:
+#     print('500-ка при логине')
+#     sys.exit()
 
 
 # Функция, которая вытаскивает со страницы все ссылки и ее статус код
